@@ -1,0 +1,78 @@
+<html>
+<head>
+    <title>Dev webserver</title>
+    <style></style>
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script type="text/javascript" src="gui.js"></script>
+    <style type="text/css">
+
+        *{pading0px;margin:0px;}
+        body { background-color: #505050; color: #f2f2f2}
+        #projectList {
+
+            list-style: none;
+        }
+        #projectList li.big {
+            width: 215px;
+            height: 215px;
+        }
+        #projectList li {
+            float: left;
+            border: 5px solid #ff7700;
+            border-radius: 20px;
+            width: 200px;
+            height: 200px;
+            margin: 5px;
+            overflow: hidden;
+        }
+        #projectList li.active {
+            border-style: dashed;
+        }
+        #projectList li .head {
+            width: 100%;
+            height: 100%;
+            text-align: center;
+
+        }
+        #projectList li .head :first-child{
+            margin-top: 20px;
+
+        }
+        #projectList li.active .activeButton {
+            display: none;
+        }
+        #projectList li .body {
+            display: none;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+    <script type="text/javascript">
+        var activeHost = <%= activeRoot %>
+    </script>
+</head>
+<body onload="init();">
+    <h2>DevWebserver</h2>
+
+    <ul id="projectList">
+        <% for(var i=0; i<roots.length; i++) { %>
+            <% var clas = 'id_'+i; %>
+            <% if(i == activeRoot) clas += ' active'; %>
+            <li class="<%= clas %>">
+                <div class="head">
+                    <div>
+                        <p class="name"><%= roots[i].name %></p>
+                        <button class="activeButton">activate</button>
+                        <button class="confButton">conf</button>
+                    </div>
+                </div>
+                <div class="body">
+                    content<br>
+                    einstellungen<br>
+                </div>
+            </li>
+        <% } %>
+    </ul>
+
+</body>
+</html>

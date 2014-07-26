@@ -1,0 +1,95 @@
+<div id="devServer-bottomPanel" style="height: 200px;">
+<style>
+#devServer-bottomPanel {
+
+}
+    #devServer-menu {
+        float: left;
+        width: 30%;
+        height: 100%;
+        background-color: #676767;
+    }
+        #devServer-searchPath {
+            width:50px;
+            height:25px;
+
+        }
+    #devServer-content {
+        float: right;
+        width: 70%;
+        height: 100%;
+        background-color: #2f2f2f;
+        overflow-y: scroll;
+    }
+        #devServer-serverList {
+            margin: 0px;
+            padding: 0px;
+            background-color: #444;
+            list-style: none;
+            background-color: #f00;
+        }
+            #devServer-serverList .item {
+                margin: 15px;
+                padding: 5px;
+                float: left;
+                width: 200px;
+                height: 100px;
+                color: #fff;
+                border: 2px solid rgba(255, 59, 0, 0.6);
+                border-radius: 10px;
+                background-color: #2f2f2f;
+                overflow: hidden;
+            }
+            #devServer-serverList .item.running {
+                border: 2px solid rgba(67, 255, 0, 0.5);
+            }
+            #devServer-serverList .item.selected {
+                width: 400px;
+                height: 400px;
+                border-style: dashed;
+            }
+                #devServer-serverList .item div{
+                    width:100%;
+                }
+                #devServer-serverList .item .console{
+                    width: 97%;
+                    height: 300px;
+                    background-color: #656565;
+                    border: 2px solid #000;
+                    overflow-y: scroll;
+                }
+                #devServer-serverList .item .functionBar .button {
+                    float: right;
+                    margin: 5px;
+                    width: 20px;
+                    height: 20px;
+                    overflow: hidden;
+                    background-color: #f00;
+                }
+</style>
+    <div id="devServer-menu">
+        <input id="devServer-newName" type="text" value="name"/>
+        <input id="devServer-newPath" type="text" value="root folder path"/>
+        <button id="devServer-searchPath"></button>
+        <input id="devServer-newPort" type="text" value="8080"/>
+        <button id="devServer-createServer">create server</button>
+    </div>
+    <div id="devServer-content">
+        <ul id="devServer-serverList">
+            <li class="item id_10">
+                <div class="functionBar">
+                    <div class="button start">start</div>
+                    <div class="button stop">stop</div>
+                    <div class="button reload">reload</div>
+                </div>
+                <div class="name">server name</div>
+                <div class="id">10</div>
+                <div class="port">8080</div>
+                <div class="path">c:/</div>
+                <div class="console">
+                    <span class="line">logLine</span>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
