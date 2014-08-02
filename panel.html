@@ -4,49 +4,90 @@
 
 }
     #devServer-menu {
+
         float: left;
         width: 30%;
         height: 100%;
-        background-color: #676767;
+        background-color: #2f2f2f;
     }
+        #devServer-menu input {
+            width: 200px;
+            display: inline-block;
+            margin: 2px;
+            border: solid 2px #000;
+            color: #fff;
+            height: 10px;
+            background-color: #464646;
+        }
+        #devServer-menu [type="button"] {
+            padding: 0 0 2px 0;
+            height: 22px;
+            border-radius: 3px;
+        }
+        #devServer-menu [type="button"]:hover {
+            background-color: #676767;
+        }
+        #devServer-newPath, #devServer-newDomain {
+            width: 130px!important;
+        }
         #devServer-searchPath {
-            width:50px;
-            height:25px;
-
+            width: 63px!important;
+        }
+        #devServer-newPort {
+            width: 47px!important;
+        }
+        #devServer-createServer {
+            width: 216px!important;
         }
     #devServer-content {
         float: right;
         width: 70%;
         height: 100%;
         background-color: #2f2f2f;
-        overflow-y: scroll;
+        overflow: hidde;
+        font-family: monospace;
+        font-size: 13px;
     }
+
         #devServer-serverList {
+            display: inline-block;
+            height: 100%;
+            width: 30%;
             margin: 0px;
             padding: 0px;
             background-color: #444;
             list-style: none;
-            background-color: #f00;
+            overflow-y: scroll;
+            overflow-x: hidden;
         }
             #devServer-serverList .item {
-                margin: 15px;
-                padding: 5px;
+                margin: 5px;
+                padding: 3px;
                 float: left;
-                width: 200px;
-                height: 100px;
+                width: 90%;
+                height: 57px;
                 color: #fff;
-                border: 2px solid rgba(255, 59, 0, 0.6);
-                border-radius: 10px;
-                background-color: #2f2f2f;
                 overflow: hidden;
             }
-            #devServer-serverList .item.running {
-                border: 2px solid rgba(67, 255, 0, 0.5);
+            #devServer-serverList .item:nth-child(odd) {
+                background-color: #2f2f2f;
+            }
+            #devServer-serverList .item:nth-child(even) {
+                background-color: #343434;
+            }
+            #devServer-serverList .item .state {
+                margin: 3px;
+                float: right;
+                width: 10px;
+                height: 10px;
+                background-color: #f00;
+                border-radius: 5px;
+            }
+            #devServer-serverList .item.running .state {
+                background-color: #0f0;
             }
             #devServer-serverList .item.selected {
-                width: 400px;
-                height: 400px;
-                border-style: dashed;
+                border: dashed 1px;;
             }
                 #devServer-serverList .item div{
                     width:100%;
@@ -58,38 +99,91 @@
                     border: 2px solid #000;
                     overflow-y: scroll;
                 }
-                #devServer-serverList .item .functionBar .button {
+                #devServer-serverList .item .button {
                     float: right;
                     margin: 5px;
-                    width: 20px;
+                    width: 45px;
                     height: 20px;
                     overflow: hidden;
-                    background-color: #f00;
+                    background-color: #464646;
+                    text-align: center;
                 }
+                #devServer-serverList .item.stoped .button.stop {
+                    display: none;
+                }
+
+        #devServer-vhostList {
+            display: inline-block;
+            height: 100%;
+            width: 30%;
+            margin: 0px;
+            padding: 0px;
+            background-color: #444;
+            list-style: none;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+            #devServer-vhostList .item {
+                margin: 5px;
+                padding: 3px;
+                float: left;
+                width: 90%;
+                height: 50px;
+                color: #fff;
+                overflow: hidden;
+            }
+            #devServer-vhostList .item:nth-child(odd) {
+                background-color: #2f2f2f;
+            }
+            #devServer-vhostList .item:nth-child(even) {
+                background-color: #343434;
+            }
+            #devServer-vhostList .item.selected {
+                border: dashed 1px;;
+            }
 </style>
     <div id="devServer-menu">
-        <input id="devServer-newName" type="text" value="name"/>
-        <input id="devServer-newPath" type="text" value="root folder path"/>
-        <button id="devServer-searchPath"></button>
-        <input id="devServer-newPort" type="text" value="8080"/>
-        <button id="devServer-createServer">create server</button>
+        <input id="devServer-newName"      type="text"    value="localhost"/>
+        <input id="devServer-newPort"      type="text"    value="80"/><br>
+        <input id="devServer-createServer" type="button"  value="create server"/>
+        <input id="devServer-newPath"      type="text"    value="c:/"/>
+        <input id="devServer-searchPath"   type="button"  value="search"/><br>
+        <input id="devServer-createVhost"  type="button"  value="create vhost"/>
+        <div id="devServer-newError" style="color:#f00;margin-left:5px;font-size:14px;"></div>
+
     </div>
     <div id="devServer-content">
         <ul id="devServer-serverList">
-            <li class="item id_10">
-                <div class="functionBar">
-                    <div class="button start">start</div>
-                    <div class="button stop">stop</div>
-                    <div class="button reload">reload</div>
-                </div>
-                <div class="name">server name</div>
-                <div class="id">10</div>
-                <div class="port">8080</div>
-                <div class="path">c:/</div>
-                <div class="console">
-                    <span class="line">logLine</span>
-                </div>
+            <li class="item running">
+                <div class="state"></div>
+                <span class="name">Name</span>
+                <div>Port: <span class="port">8080</span></div>
+                <div class="button start">start</div>
+                <div class="button stop">stop</div>
+            </li>
+            <li class="item stoped">
+                <div class="state"></div>
+                <span class="name">Namedas</span>
+                <div>Port: <span class="port">8081</span></div>
+                <div class="button start">start</div>
+                <div class="button stop">stop</div>
             </li>
         </ul>
+        <ul id="devServer-vhostList">
+            <li class="item">
+                <div class="domain">localhost</div>
+                <div class="path">c:/bla/</div>
+            </li>
+            <lI class="item">
+                <div class="domain">127.0.0.1</div>
+                <div class="path">c:/testroot</div>
+            </lI>
+
+        </ul>
+    </div>
+    <div>
+        <div class="console">
+            <span class="line">logLine</span>
+        </div>
     </div>
 </div>

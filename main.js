@@ -12,9 +12,14 @@ define(function (require, exports, module) {
 
 
 
-
+    var $quickButton = null;
     AppInit.appReady(function () {
         ServerPanel.init();
+
+        //create quick button
+        $quickButton = $('<a id="devServer-toolbar" title="devServer" href="#">http</a>');
+        $("#main-toolbar").find("#toolbar-go-live").after($quickButton);
+        $($quickButton).click(ServerPanel.togglePanel);
     });
 
 

@@ -1,47 +1,78 @@
 (function(){
+    var vhost = require('./vhosts.js');
     var express = require('express');
 
-    function httpServer(id, name, path, port){
-        this.name = name;
-        this.id = id;
-        this.path = path;
-        this.port = port;
-        this.running = false;
+    function newServer(id, port) {
+        //private scope
 
-        var self = this;
-        var app = express();
-        app.get('', function(req, res){
-            self.log(req.ip +' requested: "'+ req.url +'"');
-            res.sendfile('index.html', {root : path});
-        });
-        this.app = app;
 
-    }
-    httpServer.prototype.load = function(){
-        //check path
-        //check type
-        //return
-    };
-    httpServer.prototype.log = function(msg) {};//abstract
-    httpServer.prototype.start = function(){
-        this.running = true;
-        var self = this;
-        var server = this.app.listen(this.port, function() {
-            self.running = true;
-            self.log('Listening on port ' + server.address().port);
-        });
-        this.server = server;
-    };
-    httpServer.prototype.stop = function(){
-        this.running = false;
-        if(this.server){
-            this.server.stop();
+        _binds = {
+            'serverLog': [],
+        };
+        _server = null;
+        _app = null;
+
+        _log = function(msg) {
+            for(i=0;i<_binds['serverLog'].length;i++){
+                _binds['serverLog'][i].call(this, msg);
+            }
         }
-    };
-    httpServer.prototype.reload = function(){
-        this.stop();
-        this.load();
-        this.start();
-    };
-    module.exports = httpServer;
+
+        function httpServer() {
+            this.id = id;
+            this.port = port;
+            this.running = false;
+            this.vhostController = vhost();
+            this.init();
+        }
+        httpServer.prototype.init = function() {
+            _app = express();
+            _app.use(this.vhostController.handle());
+            //_app.use(express.static(path));
+            _app.get('*', function(req, res){
+                res.send('server host server interface');
+            });
+        };
+        httpServer.prototype.addVhost = function(domain, path) {
+            if(!this.vhostController.hasDomain(domain)){
+                this.vhostController.add(domain, path);
+                return true;
+            }else{
+                return false;
+            }
+        };
+
+        httpServer.prototype.bind = function(type, fn) {
+            if(_binds[type])
+            _binds[type].push(fn);
+        }
+        httpServer.prototype.start = function(){
+            console.log(this);
+            this.running = true;
+            var self = this;
+            _server = _app.listen(this.port, function() {
+                self.running = true;
+                _log('Listening on port ' + self.port);
+            });
+        };
+        httpServer.prototype.stop = function(){
+            this.running = false;
+            if(_server){
+                _server.close();
+            }
+        };
+        httpServer.prototype.reload = function(){
+            this.stop();
+            this.load();
+            this.start();
+        };
+        return new httpServer();
+    }
+    module.exports = newServer;
 })();
+
+
+
+
+
+
